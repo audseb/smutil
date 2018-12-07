@@ -2,18 +2,28 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Small Utils</title>
+    <title>word counts</title>
   </head>
-  <body style="font-family: monospace;">
-    <div style="margin-top: 21px;">
-      <span style="font-weight:bold;">instructions:</span> Paste text, see counts.
+  <body style="font-family: monospace;font-size:14px;padding: 21px 7px;">
+    <h1 style="font-weight: bold;font-size:1em;margin:0 0 3px;">word counts</h1>
+    <div>paste text, see counts</div>
+
+    <div style="margin: 14px 0 7px;">
+      <textarea id="i" style="width:100%;height:66%;resize:none;" rows="15"></textarea>
     </div>
 
-    <div style="margin: 7px 0;">
-      <textarea id="i" style="width:100%;height:66%;resize:none;"></textarea>
-    </div>
-    <span style="font-weight:bold;">chars:</span> <span id="lc">0</span></div>
-    <span style="font-weight:bold;">words:</span> <span id="wc">0</span></div>
+    <table>
+      <tbody>
+        <tr>
+          <td style="font-weight: bold;">chars:</td>
+          <td id="lc">0</td>
+        </tr>
+        <tr>
+          <td style="font-weight: bold;">words:</td>
+          <td id="wc">0</td>
+        </tr>
+      </tbody>
+    </table>
 
     <script type="text/javascript">
       (function(lc, wc) {
