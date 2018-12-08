@@ -1,0 +1,17 @@
+{
+  "name": "smutil",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:audseb/smutil.git",
+  "author": "Tony D'Addeo <tony@askhr.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jstransformer-handlebars": "^1.1.0",
+    "metalsmith": "^2.3.0",
+    "metalsmith-layouts": "^2.3.0"
+  }
+}
