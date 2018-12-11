@@ -1,0 +1,95 @@
+---
+title: case convert
+instructions: paste text, select new case schema
+---
+
+<div style="margin: 7px 0; height: 66%">
+  <textarea id="i" style="width:100%; height:100%; resize:none;" autocapitalize="none" rows="15"></textarea>
+</div>
+
+<button id="uc" type="button">UPPER CASE</button>
+<button id="lc" type="button">lower case</button>
+<button id="sc" type="button">Sentence case</button>
+<button id="cc" type="button">Capital Case</button>
+<button id="ac" type="button">aLtErNaTiNg cAsE</button>
+<button id="ic" type="button">InVeRsE CaSe</button>
+
+<div style="margin-top: 8px">
+  <a id="download">download</a> | <a id="copy">copy</a> | <a id="clear">clear</a>
+</div>
+
+<script type="text/javascript">
+  (function(_d, input) {
+
+    // transformers
+    _d.getElementById('uc').onclick = function() {
+      input.value = input.value.toUpperCase()
+    }
+    _d.getElementById('lc').onclick = function() {
+      input.value = input.value.toLowerCase()
+    }
+    _d.getElementById('sc').onclick = function() {
+      var val = input.value.toLowerCase(), t, s, c, i;
+      for (t = !0, s = "", i = 0; i < val.length; i++) {
+        c = val.charAt(i);
+        /\.|\!|\?|\n|\r/.test(c) ? t = !0 : "" != c.trim() && 1 == t && (c = c.toUpperCase(), t = !1), s += c;
+      }
+      input.value = s
+    }
+    _d.getElementById('cc').onclick = function() {
+      input.value = input.value.toLowerCase().replace(/^(\S)|\s+(\S)/g, function(e) {
+        return e.toUpperCase()
+      });
+    }
+    _d.getElementById('ac').onclick = function() {
+      // input.value = input.value.toUpperCase()
+      var chars = input.value, str = "", bit = true, c, i
+      for(i = 0; i < chars.length; i++) {
+        c = chars.charAt(i)
+        if(/[a-zA-Z]/.test(c)) {
+          str += bit ? c.toLowerCase() : c.toUpperCase()
+          bit = !bit
+        } else {
+          str += c
+        }
+      }
+      input.value = str
+    }
+    _d.getElementById('ic').onclick = function() {
+      var chars = input.value, str = "", c, i
+      for(i = 0; i < chars.length; i++) {
+        c = chars.charAt(i)
+        if(/[a-zA-Z]/.test(c)) {
+          str += /[a-z]/.test(c) ? c.toUpperCase() : c.toLowerCase()
+        } else {
+          str += c
+        }
+      }
+      input.value = str
+    }
+
+    // actions
+    _d.getElementById('download').onclick = function(e) {
+      e.preventDefault()
+
+      var a = _d.createElement('a')
+      a.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(input.value))
+      a.setAttribute('download', 'smutil_download_' + new Date().getTime() + '.txt')
+      a.style.display = 'none'
+
+      _d.body.appendChild(a);
+      a.click();
+      _d.body.removeChild(a);
+    }
+    _d.getElementById('copy').onclick = function(e) {
+      e.preventDefault()
+      input.select()
+      _d.execCommand('copy')
+    }
+    _d.getElementById('clear').onclick = function(e) {
+      e.preventDefault()
+      input.value = ''
+    }
+
+  })(document, document.getElementById('i'))
+</script>
