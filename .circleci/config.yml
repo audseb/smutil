@@ -15,7 +15,8 @@ jobs:
 
     steps:
       - run:
-          name: Install Python + PIP
+          # TODO: consider caching apt images or custom docker image
+          name: Install Environment Dependencies
           command: |
             sudo apt update
             sudo apt install python python-dev python-pip
