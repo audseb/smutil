@@ -9,7 +9,7 @@ jobs:
     working_directory: ~/code
 
     environment:
-      SMU_BUCKET: s3://smutil.com
+      SMU_BUCKET: s3://smutil.com/
       SMU_BUILD_DIR: ~/code/smutil/build
       SMU_DEPLOY_BRANCH: master
 
@@ -49,9 +49,8 @@ jobs:
       - deploy:
           name: Deploy to AWS
           command: |
-            ls -lah
             if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
-              aws s3 sync $SMU_BUILD_DIR $SMU_BUCKET --delete
+              aws s3 sync build/ $SMU_BUCKET --delete
             else
               echo "Not master branch, dry run only"
             fi
