@@ -1,5 +1,7 @@
 # Javascript Node CircleCI 2.0 configuration file
-
+#
+# NOTE: successful build commits to the $SMU_DEPLOY_BRANCH var below will deploy
+#
 version: 2
 jobs:
   build:
