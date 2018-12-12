@@ -16,8 +16,7 @@ jobs:
       SMU_DEPLOY_BRANCH: master
 
     steps:
-      - run: apt update
-      - run: apt install python python-dev python-pip
+      - run: sudo apt update && sudo apt install python python-dev python-pip
       - run: pip install awscli
 
       - checkout
