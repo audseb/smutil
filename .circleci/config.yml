@@ -29,7 +29,9 @@ jobs:
           name: Restore Yarn package cache
           keys:
           - yarn-packages-{{ checksum "yarn.lock" }}
-      - run: yarn install --ignore-engines
+      - run:
+          name: Install Yarn Packages
+          command: yarn install --ignore-engines
 
       - save_cache:
           name: Save Yarn package cache
@@ -38,14 +40,16 @@ jobs:
             - ~/.cache/yarn
             - node_modules
 
-      - run: node build.js
+      - run:
+          name: Build SMUtil
+          command: node build.js
 
       # TODO!
       # run tests!
       #- run: yarn test
 
       - deploy:
-          name: deploy to AWS
+          name: Deploy to AWS
           command: |
             if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
               aws s3 sync $SMU_BUILD_DIR $SMU_BUCKET --delete
