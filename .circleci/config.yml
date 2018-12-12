@@ -49,6 +49,7 @@ jobs:
       - deploy:
           name: Deploy to AWS
           command: |
+            ls -lah
             if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
               aws s3 sync $SMU_BUILD_DIR $SMU_BUCKET --delete
             else
