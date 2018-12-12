@@ -9,7 +9,7 @@ jobs:
     working_directory: ~/code
 
     environment:
-      SMU_BUCKET: s3://smutil.com/
+      SMU_AWS_S3_BUCKET_NAME: smutil.com
       SMU_BUILD_DIR: ~/code/smutil/build
       SMU_DEPLOY_BRANCH: master
 
@@ -52,7 +52,7 @@ jobs:
           name: Deploy to AWS
           command: |
             if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
-              aws s3 sync build/ $SMU_BUCKET --delete
+              aws s3 sync build/ s3://$SMU_AWS_S3_BUCKET_NAME/ --delete
               aws cloudfront create-invalidation --distribution-id $SMU_AWS_CLOUDFRONT_ID --paths /\* /\*/\*
             else
               echo "Not master branch, dry run only"
