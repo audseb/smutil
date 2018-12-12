@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+- Updated build process to explicitly include `/` to invalidate cache paths
+
 ## [v1.0.1] - 2018-12-12
 
 ### Added
