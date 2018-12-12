@@ -23,4 +23,19 @@ To make a new build, make sure your branch is up to date (do this from `master`)
    git push origin <TAG>:stable
    ```
 
-3. During deployment, combiled build assets are synced to an AWS S3 bucket. CloudFront, the content delivery network serving the app files hosted in S3, triggers cache invalidations based on items changed since the last build. This process takes between a few seconds to a few minutes; the returned cache invalidation status URL is logged in the [CircleCI process log](https://circleci.com/gh/audseb/smutil) for reference.
+3. During deployment, compiled build assets are synced to an AWS S3 bucket. CloudFront, the content delivery network serving the app files hosted in S3, triggers cache invalidations based on items changed since the last build. This process takes between a few seconds to a few minutes; the returned cache invalidation status URL is logged in the [CircleCI process log](https://circleci.com/gh/audseb/smutil) for reference.
+
+## Wishlist
+A running list of utils to tackle, in no particular order:
+* Spellchecker
+* Text find/replace
+* CSV to JSON <> JSON to CSV
+* Remove empty lines/spaces from text
+* Remove duplicate lines
+* Sort text (alpha, reverse, by delimiter)
+* Permutation generator (combinatorics algo's)
+* Random number (define min, max), string (define chars, length) generators
+* GUID/UUID generator
+* Number/text to Binary and back
+* Encrypt/decrypt text (optional password)
+* List comparrison tool
