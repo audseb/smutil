@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.0.3] - 2018-12-12
+
 ### Added
 - Google Analytics tracking data
 - Scheme for sharing constants in templates via `constants.js`
