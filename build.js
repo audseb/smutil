@@ -10,5 +10,4 @@ Metalsmith(__dirname).
   use(layouts({ default: "util.hbs" })).
   build(function(err, files) {
     if (err) throw err
-    console.log(files)
   })
