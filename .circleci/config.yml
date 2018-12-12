@@ -6,13 +6,11 @@ jobs:
     docker:
       - image: circleci/node:8.1
 
-    working_directory: ~/smutil
+    working_directory: ~/code
 
     environment:
-      AWS_ACCESS_KEY_ID: key
-      AWS_ACCESS_KEY_SECRET: secret
       SMU_BUCKET: s3://smutil.com
-      SMU_BUILD_DIR: ~/smutil/build
+      SMU_BUILD_DIR: ~/code/smutil/build
       SMU_DEPLOY_BRANCH: master
 
     steps:
