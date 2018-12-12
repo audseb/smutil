@@ -7,8 +7,8 @@ const sitemap = require('metalsmith-sitemap')
 const DOMAIN = 'https://smutil.com'
 const SITEMAP = 'sitemap.xml'
 
-const buildinfo = require('./buildinfo.js')
-const constants = require('./constants.js')
+const buildinfo = require('./plugins/buildinfo.js')
+const constants = require('./plugins/constants.js')
 
 Metalsmith(__dirname).
   source('./src').
