@@ -11,7 +11,6 @@ jobs:
     environment:
       SMU_BUCKET: s3://smutil.com/
       SMU_BUILD_DIR: ~/code/smutil/build
-      SMU_CLOUDFRONT_ID: E1BHSB1SPTRYVA
       SMU_DEPLOY_BRANCH: master
 
     steps:
@@ -53,7 +52,7 @@ jobs:
           command: |
             if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
               aws s3 sync build/ $SMU_BUCKET --delete
-              aws cloudfront create-invalidation --distribution-id $SMU_CLOUDFRONT_ID --paths /\* /\*/\*
+              aws cloudfront create-invalidation --distribution-id $SMU_AWS_CLOUDFRONT_ID --paths /\* /\*/\*
             else
               echo "Not master branch, dry run only"
             fi
