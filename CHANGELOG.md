@@ -4,8 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+- Added `sitemap.xml` and `robots.txt` for SEO purposes
+
 ### Fixed
 - Updated build process to explicitly include `/` to invalidate cache paths
+- Changed collections API to ignore non-HTML files (for now)
 
 ## [v1.0.1] - 2018-12-12
 
