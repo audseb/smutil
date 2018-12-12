@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title }}</title>
     <meta name="build" content="{{ buildinfo.rev }}">
+
     <style>
       a, a:link, a:visited { color: blue; cursor: pointer; text-decoration: underline; }
       a:hover { text-decoration: none; }
     </style>
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ const.social.ga.id }}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '{{ const.social.ga.id }}');
+    </script>
   </head>
   <body style="font-family: monospace;font-size:14px;padding: 21px 7px;">
     <h1 style="font-weight: bold;font-size:1em;margin:0 0 3px;">{{ title }}</h1>

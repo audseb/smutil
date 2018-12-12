@@ -6,13 +6,16 @@ const sitemap = require('metalsmith-sitemap')
 
 const DOMAIN = 'https://smutil.com'
 const SITEMAP = 'sitemap.xml'
+
 const buildinfo = require('./buildinfo.js')
+const constants = require('./constants.js')
 
 Metalsmith(__dirname).
   source('./src').
   destination('./build').
   clean(true).
   use(buildinfo()).
+  use(constants()).
   use(sitemap({
     hostname: DOMAIN,
     lastmod: new Date(),
