@@ -1,0 +1,51 @@
+# Javascript Node CircleCI 2.0 configuration file
+
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.1
+
+    working_directory: ~/smutil
+
+    environment:
+      AWS_ACCESS_KEY_ID: key
+      AWS_ACCESS_KEY_SECRET: secret
+      SMU_BUCKET: s3://smutil.com
+      SMU_BUILD_DIR: ~/smutil/build
+      SMU_DEPLOY_BRANCH: master
+
+    steps:
+      - run: apt update
+      - run: apt install python python-dev python-pip
+      - run: pip install awscli
+
+      - checkout
+
+      - restore_cache:
+          name: Restore Yarn package cache
+          keys:
+          - yarn-packages-{{ checksum "yarn.lock" }}
+      - run: yarn install --ignore-engines
+
+      - save_cache:
+          name: Save Yarn package cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+            - node_modules
+
+      - run: node build.js
+
+      # TODO!
+      # run tests!
+      #- run: yarn test
+
+      - deploy:
+          name: deploy to AWS
+          command: |
+            if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
+              aws s3 sync $SMU_BUILD_DIR $SMU_BUCKET --delete
+            else
+              echo "Not master branch, dry run only"
+            fi
