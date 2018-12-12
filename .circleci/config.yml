@@ -17,7 +17,7 @@ jobs:
 
     steps:
       - run: sudo apt update && sudo apt install python python-dev python-pip
-      - run: pip install awscli
+      - run: pip install awscli --upgrade --user
 
       - checkout
 
