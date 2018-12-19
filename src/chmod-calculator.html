@@ -1,0 +1,252 @@
+---
+title: chmod calculator
+instructions: calculate the numeric (octal) or symbolic value for a set of file or folder permissions in <samp>*nix</samp> environments (e.g. Linux, FreeBSD, MacOS)
+---
+
+<style>
+label { cursor: pointer; }
+.has-error { color: #a94442; }
+.has-error .form-control {
+  border-color: #a94442;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+}
+.has-error .form-control:focus {
+  border-color: #843534;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+}
+</style>
+
+<div style="margin: 14px 0 7px">
+  <table>
+    <thead>
+      <tr>
+        <th style="font-weight: bold">owner</th>
+        <th style="font-weight: bold">group</th>
+        <th style="font-weight: bold">public</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          <div>
+            <label class="control-label">read <input class="m" data-mod="400" id="c-o-r" type="checkbox"></label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <label class="control-label">write <input class="m" data-mod="200" id="c-o-w" type="checkbox"></label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <label class="control-label">execute <input class="m" data-mod="100" id="c-o-x" type="checkbox"></label>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div>
+            <label class="control-label">read <input class="m" data-mod="40" id="c-g-r" type="checkbox"></label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <label class="control-label">write <input class="m" data-mod="20" id="c-g-w" type="checkbox"></label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <label class="control-label">execute <input class="m" data-mod="10" id="c-g-x" type="checkbox"></label>
+          </div>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+          <div>
+            <label class="control-label">read <input class="m" data-mod="4" id="c-p-r" type="checkbox"></label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <label class="control-label">write <input class="m" data-mod="2" id="c-p-w" type="checkbox"></label>
+          </div>
+        </td>
+        <td>
+          <div>
+            <label class="control-label">execute <input class="m" data-mod="1" id="c-p-x" type="checkbox"></label>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="margin-top: 10px;">
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <div style="font-weight: bold">
+              octal
+            </div>
+            <div>
+              <input type="text" class="form-control input-lg m" id="c-oct" placeholder="0666">
+            </div>
+          </td>
+          <td>
+            <div style="font-weight: bold">
+              symbolic
+            </div>
+            <div>
+              <input type="text" class="form-control input-lg m" id="c-sym" placeholder="-rw-rw-rw-">
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+(function(_inputs, ERROR_CLASS) {
+  'use strict';
+
+  // get inputs by class, store in hash, add change/input listeners
+  var _byId = {}, _cs = [], _ins = [];
+
+  //////////////////////////////////////////////////////////
+  // INIT
+  (function() {
+    for(var i = 0; i < _inputs.length; i++) {
+      _byId[_inputs[i].id] = _inputs[i];
+
+      if(_inputs[i].type === 'checkbox') {
+        _inputs[i].onchange = onCheckboxChange;
+        _cs.push(_inputs[i]);
+      } else if(_inputs[i].type === 'text') {
+        _inputs[i].oninput = onInputChange;
+        _ins.push(_inputs[i]);
+      }
+    }
+  })()
+
+  //////////////////////////////////////////////////////////
+  // CHANGE ACTIONS
+  function onCheckboxChange(event) {
+    var chmodsym = '', chmod = 0, i;
+
+    resetValidation();
+
+    for(i = 0; i < _cs.length; i++) {
+      if(_cs[i].checked) {
+        chmod += parseInt(_cs[i].dataset.mod);
+        chmodsym += _cs[i].id.split('-').pop();
+      } else {
+        chmodsym += '-';
+      }
+    }
+
+    _byId['c-oct'].value = padZeros(chmod, 3);
+    _byId['c-sym'].value = chmodsym;
+  }
+  function onInputChange(event) {
+    var input = event.target, chVal, chAlt, modVal, i;
+
+    resetValidation();
+    resetCheckboxes();
+
+    if(input.id === 'c-oct') { // octal value
+      chVal = validateOctal(input.value);
+      chAlt = '';
+
+      if(chVal !== false) {
+        for(i = 0; i < _cs.length; i++) {
+          modVal = parseInt(_cs[i].dataset.mod);
+          if(chVal >= modVal) {
+            _cs[i].checked = true;
+            chVal -= modVal;
+            chAlt += _cs[i].id.split('-').pop();
+          } else {
+            chAlt += '-';
+          }
+        }
+      } else {
+        setInputError(input, true);
+      }
+
+      _byId['c-sym'].value = chAlt;
+
+    } else if(input.id === 'c-sym') { // symbolic value
+      chVal = validateSymbolic(input.value);
+      chAlt = 0;
+
+      if(chVal !== false) {
+        for(i = 0; i < chVal.length; i++) {
+          if(chVal.charAt(i) == _cs[i].id.split('-').pop()) {
+            _cs[i].checked = true;
+            chAlt += parseInt(_cs[i].dataset.mod);
+          }
+        }
+      } else {
+        setInputError(input, true);
+      }
+
+      _byId['c-oct'].value = chAlt > 0 ? chAlt : '';
+
+    }
+  }
+
+  //////////////////////////////////////////////////////////
+  // HELPER FUNCTIONS
+  function validateOctal(value) {
+    var chmod = value.trim(), i;
+    if(!isNumber(chmod) || chmod.length !== 3) {
+      return false;
+    }
+    for(i = 0; i < chmod.length; i++) {
+      if(chmod.charAt(i) < 0 || chmod.charAt(i) > 7) {
+        return false;
+      }
+    }
+    return chmod;
+  }
+  function validateSymbolic(value) {
+    var chmodsym = value.trim(), chmod = 0, i;
+    if(chmodsym.length === 10) {
+      if (chmodsym.charAt(0) === 'd' || chmodsym.charAt(0) === '-' ) {
+        chmodsym = chmodsym.substring(1);
+      } else {
+        return false;
+      }
+    }
+    return chmodsym.length === 9 ? chmodsym : false;
+  }
+  function resetCheckboxes() {
+    for(var i = 0; i < _cs.length; i++) {
+      _cs[i].checked = false;
+    }
+  }
+  function resetValidation() {
+    for(var i = 0; i < _ins.length; i++) {
+      setInputError(_ins[i], false);
+    }
+  }
+  function setInputError(input, hasError) {
+    var parent = input.parentElement;
+    parent.className = parent.className.replace(ERROR_CLASS, '') + (hasError ? ' ' + ERROR_CLASS : '');
+  }
+  function padZeros(val, len) {
+    var v = '' + (val || ''), n = len || 3;
+    while(v.length < n) {
+      v = '0' + v;
+    }
+    return v;
+  }
+  function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
+})(document.querySelectorAll('.m'), 'has-error');
+</script>
