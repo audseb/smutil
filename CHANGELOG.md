@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.0.5] - 2018-12-19
+
+### Fixed
+- Fixed layout of table options, checkbox sorting
+
 ## [v1.0.4] - 2018-12-19
 
 ### Added
