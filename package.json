@@ -12,6 +12,9 @@
     "metalsmith-robots": "^1.1.0",
     "metalsmith-sitemap": "^1.2.2"
   },
+  "resolutions": {
+    "handlebars": "~>4.1.0"
+  },
   "devDependencies": {
     "jstransformer-handlebars": "^1.1.0",
     "metalsmith": "^2.3.0",
