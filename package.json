@@ -16,7 +16,6 @@
   "resolutions": {
     "debug": "^2.6.9",
     "handlebars": "^4.1.0",
-    "jstransformer-handlebars/handlebars": "^4.1.0",
     "js-yaml": "^3.13.1"
   },
   "devDependencies": {
