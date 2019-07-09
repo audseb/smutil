@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.0.6] - 2019-07-09
+
+### Fixed
+- Security fixes for specific node packages, namely `debug`, `handlebars`, and `js-yaml`
+
 ## [v1.0.5] - 2018-12-19
 
 ### Fixed
@@ -46,8 +51,9 @@ All notable changes to this project will be documented in this file.
 - Build script to validate builds and auto-deployer for commits to `stable`
 
 
-[Unreleased]: https://github.com/audseb/smutil/compare/v1.0.5...HEAD
-[v1.0.4]: https://github.com/audseb/smutil/compare/v1.0.4...v1.0.5
+[Unreleased]: https://github.com/audseb/smutil/compare/v1.0.6...HEAD
+[v1.0.6]: https://github.com/audseb/smutil/compare/v1.0.5...v1.0.6
+[v1.0.5]: https://github.com/audseb/smutil/compare/v1.0.4...v1.0.5
 [v1.0.4]: https://github.com/audseb/smutil/compare/v1.0.3...v1.0.4
 [v1.0.3]: https://github.com/audseb/smutil/compare/v1.0.2...v1.0.3
 [v1.0.2]: https://github.com/audseb/smutil/compare/v1.0.1...v1.0.2
