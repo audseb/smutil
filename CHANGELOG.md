@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ## [v1.0.6] - 2019-07-09
 
+### Added
+- Developer tools for app hosting and auto reloading on changes via `yarn watch` script (utilizes `nodemon`)
+
 ### Fixed
 - Security fixes for specific node packages, namely `debug`, `handlebars`, and `js-yaml`
 
