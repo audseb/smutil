@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+- Security fix for `lodash` < 4.17.13
+
 ## [v1.0.6] - 2019-07-09
 
 ### Added
