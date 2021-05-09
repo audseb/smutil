@@ -12,7 +12,7 @@
   "dependencies": {
     "debug": "^4.1.1",
     "handlebars": "^4.7.6",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "metalsmith-robots": "^1.1.0",
     "metalsmith-sitemap": "^1.2.2"
   },
