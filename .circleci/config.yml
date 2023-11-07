@@ -16,8 +16,6 @@ defaults:
 jobs:
   build:
     <<: *defaults
-    context:
-      - askhr-apps-deployer
     environment:
       SMU_AWS_S3_BUCKET_NAME: smutil.com
       SMU_BUILD_DIR: ~/code/smutil/build
@@ -55,3 +53,9 @@ jobs:
             # else
             #   echo "Not '$SMU_DEPLOY_BRANCH' branch, build only (no deploy)"
             # fi
+
+workflows: # a single workflow with a single job called build
+  build:
+    jobs:
+      - build:
+          context: askhr-apps-deployer
