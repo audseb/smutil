@@ -12,8 +12,8 @@ defaults:
   docker:
     - image: cimg/node:18.18
   environment:
-    - SMU_AWS_S3_BUCKET_NAME: smutil.com
-    - SMU_DEPLOY_BRANCH: stable
+    SMU_AWS_S3_BUCKET_NAME: smutil.com
+    SMU_DEPLOY_BRANCH: stable
   resource_class: large
 
 jobs:
@@ -44,9 +44,9 @@ jobs:
       - deploy:
           name: Deploy to AWS
           command: |
-            if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
+            # if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
               aws s3 sync build/ s3://$SMU_AWS_S3_BUCKET_NAME/ --delete
               aws cloudfront create-invalidation --distribution-id $SMU_AWS_CLOUDFRONT_ID --paths / /\* /\*/\*
-            else
-              echo "Not '$SMU_DEPLOY_BRANCH' branch, build only (no deploy)"
-            fi
+            # else
+            #   echo "Not '$SMU_DEPLOY_BRANCH' branch, build only (no deploy)"
+            # fi
