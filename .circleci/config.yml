@@ -1,12 +1,13 @@
-# Javascript Node CircleCI 2.0 configuration file
+# Javascript Node CircleCI 2.1 configuration file
 #
 # NOTE: successful build commits to the $SMU_DEPLOY_BRANCH var below will deploy
 #
-version: 2
+version: 2.1
+
 jobs:
   build:
     docker:
-      - image: circleci/node:8.1
+      - image: cimg/node:18.18
 
     working_directory: ~/code
 
