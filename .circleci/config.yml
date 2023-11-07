@@ -16,6 +16,8 @@ defaults:
 jobs:
   build:
     <<: *defaults
+    context:
+      - askhr-apps-deployer
     environment:
       SMU_AWS_S3_BUCKET_NAME: smutil.com
       SMU_BUILD_DIR: ~/code/smutil/build
