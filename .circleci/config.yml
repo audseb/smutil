@@ -10,13 +10,13 @@ defaults:
   environment:
     SMU_AWS_S3_BUCKET_NAME: smutil.com
   resource_class: large
-  working_directory: /code
+  working_directory: /tmp/code
 
 jobs:
   build:
     <<: *defaults
     steps:
-      - run: mkdir smutil && cd smutil
+      - run: mkdir /tmp/code/smutil && cd /tmp/code/smutil
       - checkout
       - restore_cache:
           name: Restore Yarn package cache
@@ -35,7 +35,7 @@ jobs:
           name: Build
           command: yarn build
       - persist_to_workspace:
-          root: smutil
+          root: /tmp/code/smutil
           paths:
             - build
   deploy:
@@ -46,7 +46,7 @@ jobs:
       - run: ls -lah
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: /code/smutil
+          at: /tmp/code/smutil
       - deploy:
           name: Deploy to AWS
           # TODO: smarter cache invalidation, only changed files?
