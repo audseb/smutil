@@ -4,29 +4,25 @@
 #
 version: 2.1
 
+orbs:
+  aws-cli: circleci/aws-cli@4.1.0
+
+defaults:
+  &defaults
+  docker:
+    - image: cimg/node:18.18
+  environment:
+    - SMU_AWS_S3_BUCKET_NAME: smutil.com
+    - SMU_BUILD_DIR: ~/code/smutil/build
+    - SMU_DEPLOY_BRANCH: stable
+  resource_class: large
+  working_directory: ~/code
+
 jobs:
   build:
-    docker:
-      - image: cimg/node:18.18
-
-    working_directory: ~/code
-
-    environment:
-      SMU_AWS_S3_BUCKET_NAME: smutil.com
-      SMU_BUILD_DIR: ~/code/smutil/build
-      SMU_DEPLOY_BRANCH: stable
-
+    <<: *defaults
     steps:
-      - run:
-          # TODO: consider caching apt images or custom docker image
-          name: Install Environment Dependencies
-          command: |
-            sudo apt update
-            sudo apt install python python-dev python-pip
-            sudo pip install awscli
-
       - checkout
-
       - restore_cache:
           name: Restore Yarn package cache
           keys:
@@ -34,22 +30,17 @@ jobs:
       - run:
           name: Install Yarn Packages
           command: yarn install --ignore-engines
-
       - save_cache:
           name: Save Yarn package cache
           key: yarn-packages-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
             - node_modules
-
       - run:
-          name: Build SMUtil
+          name: Build
           command: yarn build
-
-      # TODO!
-      # run tests!
-      #- run: yarn test
-
+      # TODO: run tests!
+      - aws-cli/setup
       # TODO: smarter cache invalidation, only changed files?
       - deploy:
           name: Deploy to AWS
