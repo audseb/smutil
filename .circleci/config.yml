@@ -10,6 +10,7 @@ defaults:
   environment:
     SMU_AWS_S3_BUCKET_NAME: smutil.com
   resource_class: large
+  working_directory: /tmp/smutil
 
 jobs:
   build:
@@ -32,16 +33,21 @@ jobs:
       - run:
           name: Build
           command: yarn build
+      # - persist_to_workspace:
+      #     root: ./
   deploy:
     <<: *defaults
     steps:
       - aws-cli/setup
+      # - attach_workspace:
+      #     # Must be absolute path or relative path from working_directory
+      #     at: /tmp/smutil
       - deploy:
           name: Deploy to AWS
           # TODO: smarter cache invalidation, only changed files?
           command: |
             echo ":: deploying to: $SMU_AWS_S3_BUCKET_NAME"
-            aws s3 sync build/ s3://$SMU_AWS_S3_BUCKET_NAME/ --delete
+            aws s3 sync ./build/ s3://$SMU_AWS_S3_BUCKET_NAME/ --delete
             echo ":: invalidating cache: $SMU_AWS_CLOUDFRONT_ID"
             aws cloudfront create-invalidation --distribution-id $SMU_AWS_CLOUDFRONT_ID --paths / /\* /\*/\*
 
@@ -54,6 +60,6 @@ workflows:
             - askhr-apps-deployer
           requires:
             - build
-          filters:
-            branches:
-              only: stable
+          # filters:
+          #   branches:
+          #     only: stable
