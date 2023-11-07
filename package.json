@@ -1,6 +1,6 @@
 {
   "name": "smutil",
-  "version": "1.0.0",
+  "version": "1.0.7",
   "main": "index.js",
   "repository": "git@github.com:audseb/smutil.git",
   "author": "Tony D'Addeo <tony@askhr.com>",

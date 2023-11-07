@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.0.7] - 2023-11-06
+
 ### Fixed
 - Security fix for `lodash` < 4.17.13
+- General security updates
 
 ## [v1.0.6] - 2019-07-09
 
@@ -57,7 +60,8 @@ All notable changes to this project will be documented in this file.
 - Build script to validate builds and auto-deployer for commits to `stable`
 
 
-[Unreleased]: https://github.com/audseb/smutil/compare/v1.0.6...HEAD
+[Unreleased]: https://github.com/audseb/smutil/compare/v1.0.7...HEAD
+[v1.0.7]: https://github.com/audseb/smutil/compare/v1.0.6...v1.0.7
 [v1.0.6]: https://github.com/audseb/smutil/compare/v1.0.5...v1.0.6
 [v1.0.5]: https://github.com/audseb/smutil/compare/v1.0.4...v1.0.5
 [v1.0.4]: https://github.com/audseb/smutil/compare/v1.0.3...v1.0.4
