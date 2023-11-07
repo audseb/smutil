@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.0.8] - 2023-11-06
+
+### Updated
+- Changed deployment process to two steps
+
 ## [v1.0.7] - 2023-11-06
 
 ### Fixed

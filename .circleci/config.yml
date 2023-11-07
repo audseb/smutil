@@ -1,7 +1,3 @@
-# Javascript Node CircleCI 2.1 configuration file
-#
-# NOTE: successful build commits to the $SMU_DEPLOY_BRANCH var below will deploy
-#
 version: 2.1
 
 orbs:
@@ -13,7 +9,6 @@ defaults:
     - image: cimg/node:18.18
   environment:
     SMU_AWS_S3_BUCKET_NAME: smutil.com
-    SMU_DEPLOY_BRANCH: stable
   resource_class: large
 
 jobs:
@@ -60,8 +55,7 @@ workflows:
           requires:
             - build
           filters:
-            # deploy only for release tags
             branches:
-              only: /^release-.*$/
+              only: stable
             tags:
               only: /^v\d+\.\d+\.\d+(-.*)?$/
