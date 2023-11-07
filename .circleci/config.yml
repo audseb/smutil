@@ -16,7 +16,6 @@ jobs:
   build:
     <<: *defaults
     steps:
-      - run: mkdir /tmp/code/smutil && cd /tmp/code/smutil
       - checkout
       - restore_cache:
           name: Restore Yarn package cache
