@@ -1,7 +1,7 @@
 {
   "name": "smutil",
-  "version": "1.0.7",
-  "main": "index.js",
+  "version": "1.0.8",
+  "main": "build.js",
   "repository": "git@github.com:audseb/smutil.git",
   "author": "Tony D'Addeo <tony@askhr.com>",
   "license": "MIT",

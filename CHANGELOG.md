@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.0.8] - 2023-11-06
+
+### Updated
+- Changed deployment process to two steps
+
 ## [v1.0.7] - 2023-11-06
 
 ### Fixed
@@ -60,7 +65,8 @@ All notable changes to this project will be documented in this file.
 - Build script to validate builds and auto-deployer for commits to `stable`
 
 
-[Unreleased]: https://github.com/audseb/smutil/compare/v1.0.7...HEAD
+[Unreleased]: https://github.com/audseb/smutil/compare/v1.0.8...HEAD
+[v1.0.8]: https://github.com/audseb/smutil/compare/v1.0.7...v1.0.8
 [v1.0.7]: https://github.com/audseb/smutil/compare/v1.0.6...v1.0.7
 [v1.0.6]: https://github.com/audseb/smutil/compare/v1.0.5...v1.0.6
 [v1.0.5]: https://github.com/audseb/smutil/compare/v1.0.4...v1.0.5

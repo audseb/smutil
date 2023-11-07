@@ -1,7 +1,3 @@
-# Javascript Node CircleCI 2.1 configuration file
-#
-# NOTE: successful build commits to the $SMU_DEPLOY_BRANCH var below will deploy
-#
 version: 2.1
 
 orbs:
@@ -13,8 +9,6 @@ defaults:
     - image: cimg/node:18.18
   environment:
     SMU_AWS_S3_BUCKET_NAME: smutil.com
-    SMU_BUILD_DIR: ~/code/smutil/build
-    SMU_DEPLOY_BRANCH: stable
   resource_class: large
 
 jobs:
@@ -38,7 +32,6 @@ jobs:
       - run:
           name: Build
           command: yarn build
-      # TODO: run tests!
   deploy:
     <<: *defaults
     steps:
@@ -47,21 +40,22 @@ jobs:
           name: Deploy to AWS
           # TODO: smarter cache invalidation, only changed files?
           command: |
-            if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
-              echo ":: deploying to: $SMU_AWS_S3_BUCKET_NAME"
-              aws s3 sync build/ s3://$SMU_AWS_S3_BUCKET_NAME/ --delete
-              echo ":: invalidating cache: $SMU_AWS_CLOUDFRONT_ID"
-              aws cloudfront create-invalidation --distribution-id $SMU_AWS_CLOUDFRONT_ID --paths / /\* /\*/\*
-            else
-              echo "Not '$SMU_DEPLOY_BRANCH' branch, build only (no deploy)"
-            fi
+            echo ":: deploying to: $SMU_AWS_S3_BUCKET_NAME"
+            aws s3 sync build/ s3://$SMU_AWS_S3_BUCKET_NAME/ --delete
+            echo ":: invalidating cache: $SMU_AWS_CLOUDFRONT_ID"
+            aws cloudfront create-invalidation --distribution-id $SMU_AWS_CLOUDFRONT_ID --paths / /\* /\*/\*
 
 workflows:
   build:
     jobs:
       - build
       - deploy:
-          requires:
-            - build
           context:
             - askhr-apps-deployer
+          requires:
+            - build
+          filters:
+            branches:
+              only: stable
+            tags:
+              only: /^v\d+\.\d+\.\d+(-.*)?$/
