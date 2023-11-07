@@ -16,11 +16,11 @@ defaults:
     - SMU_BUILD_DIR: ~/code/smutil/build
     - SMU_DEPLOY_BRANCH: stable
   resource_class: large
-  working_directory: ~/code
 
 jobs:
   build:
     <<: *defaults
+    working_directory: ~/code
     steps:
       - checkout
       - restore_cache:
