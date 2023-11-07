@@ -10,7 +10,7 @@ defaults:
   environment:
     SMU_AWS_S3_BUCKET_NAME: smutil.com
   resource_class: large
-  working_directory: /tmp
+  working_directory: /code
 
 jobs:
   build:
@@ -46,7 +46,7 @@ jobs:
       - run: ls -lah
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: /tmp/smutil
+          at: /code/smutil
       - deploy:
           name: Deploy to AWS
           # TODO: smarter cache invalidation, only changed files?
