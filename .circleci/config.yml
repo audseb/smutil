@@ -16,6 +16,7 @@ jobs:
   build:
     <<: *defaults
     steps:
+      - run: mkdir smutil && cd smutil
       - checkout
       - restore_cache:
           name: Restore Yarn package cache
@@ -34,9 +35,9 @@ jobs:
           name: Build
           command: yarn build
       - persist_to_workspace:
-          root: build
+          root: smutil
           paths:
-            - ./
+            - build
   deploy:
     <<: *defaults
     steps:
@@ -45,7 +46,7 @@ jobs:
       - run: ls -lah
       - attach_workspace:
           # Must be absolute path or relative path from working_directory
-          at: /tmp/build
+          at: /tmp/smutil
       - deploy:
           name: Deploy to AWS
           # TODO: smarter cache invalidation, only changed files?
