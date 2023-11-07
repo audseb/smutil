@@ -11,16 +11,15 @@ defaults:
   &defaults
   docker:
     - image: cimg/node:18.18
+  environment:
+    SMU_AWS_S3_BUCKET_NAME: smutil.com
+    SMU_BUILD_DIR: ~/code/smutil/build
+    SMU_DEPLOY_BRANCH: stable
   resource_class: large
 
 jobs:
   build:
     <<: *defaults
-    environment:
-      SMU_AWS_S3_BUCKET_NAME: smutil.com
-      SMU_BUILD_DIR: ~/code/smutil/build
-      SMU_DEPLOY_BRANCH: stable
-    working_directory: ~/code
     steps:
       - checkout
       - restore_cache:
@@ -40,22 +39,29 @@ jobs:
           name: Build
           command: yarn build
       # TODO: run tests!
+  deploy:
+    <<: *defaults
+    steps:
       - aws-cli/setup
-      # TODO: smarter cache invalidation, only changed files?
       - deploy:
           name: Deploy to AWS
+          # TODO: smarter cache invalidation, only changed files?
           command: |
-            # if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
+            if [ "${CIRCLE_BRANCH}" = $SMU_DEPLOY_BRANCH ]; then
               echo ":: deploying to: $SMU_AWS_S3_BUCKET_NAME"
               aws s3 sync build/ s3://$SMU_AWS_S3_BUCKET_NAME/ --delete
               echo ":: invalidating cache: $SMU_AWS_CLOUDFRONT_ID"
               aws cloudfront create-invalidation --distribution-id $SMU_AWS_CLOUDFRONT_ID --paths / /\* /\*/\*
-            # else
-            #   echo "Not '$SMU_DEPLOY_BRANCH' branch, build only (no deploy)"
-            # fi
+            else
+              echo "Not '$SMU_DEPLOY_BRANCH' branch, build only (no deploy)"
+            fi
 
-workflows: # a single workflow with a single job called build
+workflows:
   build:
     jobs:
-      - build:
-          context: askhr-apps-deployer
+      - build
+      - deploy:
+          requires:
+            - build
+          context:
+            - askhr-apps-deployer
