@@ -57,5 +57,3 @@ workflows:
           filters:
             branches:
               only: stable
-            tags:
-              only: /^v\d+\.\d+\.\d+(-.*)?$/
