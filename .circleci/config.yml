@@ -13,7 +13,6 @@ defaults:
     - image: cimg/node:18.18
   environment:
     - SMU_AWS_S3_BUCKET_NAME: smutil.com
-    - SMU_BUILD_DIR: ~/code/smutil/build
     - SMU_DEPLOY_BRANCH: stable
   resource_class: large
 
