@@ -425,7 +425,7 @@ gray-matter@^2.0.0:
     js-yaml "^3.8.1"
     toml "^2.3.2"
 
-handlebars@^4.0.1, handlebars@^4.1.0, handlebars@^4.7.6:
+handlebars@^4.1.0, handlebars@^4.7.6, handlebars@^4.7.7:
   version "4.7.8"
   resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.8.tgz#41c42c18b1be2365439188c77c6afae71c0cd9e9"
   integrity sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==
@@ -553,12 +553,12 @@ jsonfile@^2.1.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jstransformer-handlebars@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/jstransformer-handlebars/-/jstransformer-handlebars-1.1.0.tgz#91ba56e0a28aee31bb56d4adbcbce508d8230468"
-  integrity sha1-kbpW4KKK7jG7VtStvLzlCNgjBGg=
+jstransformer-handlebars@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/jstransformer-handlebars/-/jstransformer-handlebars-1.2.0.tgz#08bda66f28cad29747c17c5fccf9fb6f2e9b8661"
+  integrity sha512-XqdE9hKMwyVxdMg52MmJOf6zmrXn2JJMvymHulUQxtkxeipVuxh5xJ1UVNcc06ioC61WG5B+XAnaEJY7efmFxQ==
   dependencies:
-    handlebars "^4.0.1"
+    handlebars "^4.7.7"
 
 jstransformer@^1.0.0:
   version "1.0.0"
