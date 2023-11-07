@@ -41,10 +41,7 @@ jobs:
     <<: *defaults
     steps:
       - aws-cli/setup
-      - run: pwd
-      - run: ls -lah
       - attach_workspace:
-          # Must be absolute path or relative path from working_directory
           at: ~/smutil
       - deploy:
           name: Deploy to AWS
@@ -64,6 +61,6 @@ workflows:
             - askhr-apps-deployer
           requires:
             - build
-          # filters:
-          #   branches:
-          #     only: stable
+          filters:
+            branches:
+              only: stable
