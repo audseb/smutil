@@ -54,3 +54,4 @@ jobs:
         with:
           name: build-output
           path: ./build
+      - run: ls -lah
