@@ -24,8 +24,7 @@ jobs:
     container:
       image: node:18
     env:
-      # NODE_ENV: development
-      NODE_ENV: production
+      NODE_ENV: development
     steps:
       - uses: actions/checkout@v4
       # - uses: actions/setup-node@v4
@@ -43,6 +42,8 @@ jobs:
       - name: Yarn install
         run: yarn install --ignore-engines
       - name: Yarn build
+        env:
+          NODE_ENV: production
         run: yarn build
       - uses: actions/upload-artifact@v4
         with:
