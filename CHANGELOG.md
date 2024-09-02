@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.1.0] - 2024-09-01
+
+### Changed
+- Changed internal build process to use GitHub Actions
+- Commits to main now deploy directly to AWS
+
+### Removed
+- Removed CircleCI build
+
 ## [v1.0.7] - 2023-11-06
 
 ### Fixed
@@ -63,7 +72,8 @@ All notable changes to this project will be documented in this file.
 - Build script to validate builds and auto-deployer for commits to `stable`
 
 
-[Unreleased]: https://github.com/audseb/smutil/compare/v1.0.7...HEAD
+[Unreleased]: https://github.com/audseb/smutil/compare/v1.1.0...HEAD
+[v1.1.0]: https://github.com/audseb/smutil/compare/v1.0.7...v1.1.0
 [v1.0.7]: https://github.com/audseb/smutil/compare/v1.0.6...v1.0.7
 [v1.0.6]: https://github.com/audseb/smutil/compare/v1.0.5...v1.0.6
 [v1.0.5]: https://github.com/audseb/smutil/compare/v1.0.4...v1.0.5
