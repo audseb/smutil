@@ -864,7 +864,7 @@ metalsmith-watch@^1.0.3:
 metalsmith@^2.6.3:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/metalsmith/-/metalsmith-2.6.3.tgz#ae13d513e2a617819d9d977a7618f8d595c94058"
-  integrity sha512-nql0eDbeDdYY3cz0uDVmwQ/E9XDBAHBf5p3lz+IwZAlUvz72DAd5+F+vl7Fot7I+yQDVK59uB0CL9S+Ts7ELsw==
+  integrity "sha1-rhPVE+KmF4GdnZd6dhj41ZXJQFg= sha512-nql0eDbeDdYY3cz0uDVmwQ/E9XDBAHBf5p3lz+IwZAlUvz72DAd5+F+vl7Fot7I+yQDVK59uB0CL9S+Ts7ELsw=="
   dependencies:
     chokidar "^3.6.0"
     commander "^10.0.1"
