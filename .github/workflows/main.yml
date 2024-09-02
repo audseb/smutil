@@ -14,6 +14,8 @@ concurrency:
 
 env:
   AWS_REGION: us-east-1
+  BUILD_DIR: ./build
+  CLOUDFRONT_ID: E1BHSB1SPTRYVA
   S3_BUCKET_NAME: smutil.com
 
 jobs:
@@ -44,14 +46,29 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: ./build
+          path: ${{ env.BUILD_DIR }}
 
   deploy:
+    # github.ref == 'refs/heads/main'
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
       - uses: actions/download-artifact@v4
         with:
           name: build-output
-          path: ./build
-      - run: ls -lah
+          path: ${{ env.BUILD_DIR }}
+      # TODO: Configure AWS OIDC integration instead of CLI credentials
+      # See https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions
+      - name: Deploy to AWS
+        run: |
+            echo ":: deploying to: ${{ env.S3_BUCKET_NAME }}"
+            aws s3 sync ${{ env.BUILD_DIR }}/ s3://${{ env.S3_BUCKET_NAME }}/ --delete
+
+            echo ":: invalidating cache: ${{ env.CLOUDFRONT_ID }}"
+            aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_ID }} --paths / /\* /\*/\*
