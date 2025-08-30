@@ -4,15 +4,16 @@ name: Main
 on:
   push:
     branches:
-      - '**'
+      - "**"
   workflow_dispatch:
 
 # The `concurrency` key ensures that only a single workflow in the same concurrency group will run at the same time
 concurrency:
-    group: '${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}'
-    cancel-in-progress: true
+  group: "${{ github.workflow }}@${{ github.event.pull_request.head.label || github.head_ref || github.ref }}"
+  cancel-in-progress: true
 
 env:
+  AWS_REGION: us-east-1
   BUILD_DIR: ./build
   CLOUDFRONT_ID: E1BHSB1SPTRYVA
   NODE_ENV: development
@@ -55,9 +56,9 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+          # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
       - run: aws --version
       - run: aws sts get-caller-identity
       - uses: actions/download-artifact@v4
@@ -68,8 +69,8 @@ jobs:
       # See https://github.com/marketplace/actions/configure-aws-credentials-action-for-github-actions
       - name: Deploy to AWS
         run: |
-            echo ":: deploying to: ${{ env.S3_BUCKET_NAME }}"
-            aws s3 sync ${{ env.BUILD_DIR }}/ s3://${{ env.S3_BUCKET_NAME }}/ --delete
+          echo ":: deploying to: ${{ env.S3_BUCKET_NAME }}"
+          aws s3 sync ${{ env.BUILD_DIR }}/ s3://${{ env.S3_BUCKET_NAME }}/ --delete
 
-            echo ":: invalidating cache: ${{ env.CLOUDFRONT_ID }}"
-            aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_ID }} --paths / /\* /\*/\*
+          echo ":: invalidating cache: ${{ env.CLOUDFRONT_ID }}"
+          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_ID }} --paths / /\* /\*/\*
