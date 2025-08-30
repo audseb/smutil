@@ -58,6 +58,8 @@ jobs:
         with:
           # aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           # aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::881242931272:role/gh-actions-smutil
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
       - run: aws --version
       - run: aws sts get-caller-identity
