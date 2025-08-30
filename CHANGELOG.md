@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.2.0] - 2025-08-29
+
+### Changed
+- Updated GitHub Actions workflow to use OIDC for AWS authentication
+- Removed AWS credentials from GitHub secrets
+- Updated Node.js version to 22 in GitHub Actions workflow
+
 ## [v1.1.0] - 2024-09-01
 
 ### Changed

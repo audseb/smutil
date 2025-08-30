@@ -1,9 +1,9 @@
 {
   "name": "smutil",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "main": "build.js",
   "repository": "git@github.com:audseb/smutil.git",
-  "author": "Tony D'Addeo <tony@askhr.com>",
+  "author": "James Sturges <james@askhr.com>",
   "license": "MIT",
   "scripts": {
     "build": "node build.js",
