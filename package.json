@@ -10,7 +10,7 @@
     "watch": "SERVE=true node build.js"
   },
   "dependencies": {
-    "debug": "^4.4.0",
+    "debug": "^4.4.1",
     "handlebars": "^4.7.6",
     "lodash": "^4.17.19",
     "metalsmith-robots": "^1.1.0",
