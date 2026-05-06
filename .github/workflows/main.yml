@@ -28,27 +28,27 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
         with:
           # Note: Don't set node-version and node-version-file together
-          # node-version: 22
+          # node-version: 24
           node-version-file: .nvmrc
           check-latest: true
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         id: cache-modules
         with:
-          key: ${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
+          key: ${{ runner.os }}-modules-${{ hashFiles('package-lock.json') }}
           path: node_modules
       - name: Node version
         run: node --version
-      - name: Yarn install
-        run: yarn install --ignore-engines
-      - name: Yarn build
+      - name: npm install
+        run: npm ci
+      - name: npm build
         env:
           NODE_ENV: production
-        run: yarn build
-      - uses: actions/upload-artifact@v4
+        run: npm run build
+      - uses: actions/upload-artifact@v7
         with:
           name: build-output
           path: ${{ env.BUILD_DIR }}
@@ -60,14 +60,14 @@ jobs:
     needs: build
     steps:
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.2
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: arn:aws:iam::881242931272:role/gh-actions-smutil
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
       - run: aws --version
       - run: aws sts get-caller-identity
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           name: build-output
           path: ${{ env.BUILD_DIR }}

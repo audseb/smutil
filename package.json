@@ -16,12 +16,6 @@
     "metalsmith-robots": "^1.1.0",
     "metalsmith-sitemap": "^1.2.2"
   },
-  "resolutions": {
-    "debug": "^2.6.9",
-    "handlebars": "^4.1.0",
-    "js-yaml": "^3.13.1",
-    "lodash": "^4.17.13"
-  },
   "devDependencies": {
     "jstransformer-handlebars": "^1.2.0",
     "metalsmith": "^2.6.3",
