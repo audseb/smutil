@@ -1,0 +1,138 @@
+---
+title: markdown preview
+instructions: paste markdown on the left, see rendered html on the right
+---
+
+<style>
+  #mdo { font-family: sans-serif; line-height: 1.6; word-break: break-word }
+  #mdo h1,#mdo h2,#mdo h3,#mdo h4,#mdo h5,#mdo h6 { font-weight: bold; margin: .5em 0 .25em }
+  #mdo h1 { font-size: 2em } #mdo h2 { font-size: 1.5em } #mdo h3 { font-size: 1.17em }
+  #mdo p { margin: .5em 0 }
+  #mdo ul,#mdo ol { margin: .5em 0; padding-left: 1.5em }
+  #mdo code { background: #f0f0f0; padding: 1px 4px; border-radius: 3px; font-family: monospace }
+  #mdo pre { background: #f0f0f0; padding: 10px; overflow-x: auto; border-radius: 3px }
+  #mdo pre code { background: none; padding: 0 }
+  #mdo blockquote { border-left: 3px solid #ccc; margin: .5em 0; padding: 0 12px; color: #555 }
+  #mdo hr { border: none; border-top: 1px solid #ccc; margin: 1em 0 }
+  #mdo table { border-collapse: collapse; width: 100% }
+  #mdo th,#mdo td { border: 1px solid #ccc; padding: 4px 8px }
+  #mdo th { background: #f0f0f0 }
+  #mdo img { max-width: 100% }
+</style>
+
+<div id="mdc" style="display:flex;margin:0 -7px;">
+  <textarea id="mdi" placeholder="paste markdown here…" style="width:50%;resize:none;border:none;border-right:1px solid #ccc;font-family:monospace;font-size:13px;padding:8px;box-sizing:border-box;outline:none;"></textarea>
+  <div id="mdo" style="width:50%;overflow-y:auto;padding:8px 14px;box-sizing:border-box;"></div>
+</div>
+
+<script>
+(function() {
+  var inp = document.getElementById('mdi')
+  var out = document.getElementById('mdo')
+  var wrap = document.getElementById('mdc')
+
+  function setHeight() {
+    var h = (window.innerHeight - wrap.getBoundingClientRect().top - 8) + 'px'
+    wrap.style.height = h
+    inp.style.height = h
+  }
+  setHeight()
+  window.addEventListener('resize', setHeight)
+
+  function esc(s) {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  }
+
+  function inline(s) {
+    var saved = []
+    s = s.replace(/`([^`\n]+)`/g, function(_, c) {
+      saved.push('<code>' + esc(c) + '</code>')
+      return '\x01' + (saved.length - 1) + '\x01'
+    })
+    s = s.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1">')
+    s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    s = s.replace(/\*\*\*([^*\n]+)\*\*\*/g, '<strong><em>$1</em></strong>')
+    s = s.replace(/\*\*([^*\n]+)\*\*/g, '<strong>$1</strong>')
+    s = s.replace(/__([^_\n]+)__/g, '<strong>$1</strong>')
+    s = s.replace(/\*([^*\n]+)\*/g, '<em>$1</em>')
+    s = s.replace(/\b_([^_\n]+)_\b/g, '<em>$1</em>')
+    s = s.replace(/~~([^~\n]+)~~/g, '<del>$1</del>')
+    return s.replace(/\x01(\d+)\x01/g, function(_, i) { return saved[+i] })
+  }
+
+  function md(src) {
+    var ph = []
+    src = src.replace(/```([^\n]*)\n([\s\S]*?)```/g, function(_, lang, code) {
+      ph.push('<pre><code>' + esc(code.replace(/\n$/, '')) + '</code></pre>')
+      return '\x00' + (ph.length - 1) + '\x00'
+    })
+
+    var result = [], lines = src.split('\n'), i = 0, l, m
+
+    function isBlock(s) {
+      return !s.trim() || /^#{1,6}\s/.test(s) || /^[-*+]\s/.test(s) ||
+        /^\d+\.\s/.test(s) || /^>\s?/.test(s) || /^[-*_]{3,}\s*$/.test(s) || /\x00/.test(s)
+    }
+
+    while (i < lines.length) {
+      l = lines[i]
+
+      if (m = l.trim().match(/^\x00(\d+)\x00$/)) { result.push(ph[+m[1]]); i++; continue }
+
+      if (m = l.match(/^(#{1,6})\s+(.*)/)) {
+        result.push('<h' + m[1].length + '>' + inline(m[2]) + '</h' + m[1].length + '>')
+        i++; continue
+      }
+
+      if (/^[-*_]{3,}\s*$/.test(l)) { result.push('<hr>'); i++; continue }
+
+      if (/^>\s?/.test(l)) {
+        var bq = []
+        while (i < lines.length && /^>\s?/.test(lines[i])) { bq.push(lines[i].replace(/^>\s?/, '')); i++ }
+        result.push('<blockquote>' + md(bq.join('\n')) + '</blockquote>')
+        continue
+      }
+
+      if (/^\|.+\|/.test(l) && i + 1 < lines.length && /^\|[-: |]+\|/.test(lines[i + 1])) {
+        var cols = l.split('|').slice(1, -1).map(function(c) { return '<th>' + inline(c.trim()) + '</th>' })
+        i += 2
+        var rows = []
+        while (i < lines.length && /^\|.+\|/.test(lines[i])) {
+          var cells = lines[i].split('|').slice(1, -1).map(function(c) { return '<td>' + inline(c.trim()) + '</td>' })
+          rows.push('<tr>' + cells.join('') + '</tr>')
+          i++
+        }
+        result.push('<table><thead><tr>' + cols.join('') + '</tr></thead><tbody>' + rows.join('') + '</tbody></table>')
+        continue
+      }
+
+      if (/^[-*+]\s/.test(l)) {
+        var ul = []
+        while (i < lines.length && /^[-*+]\s/.test(lines[i])) { ul.push('<li>' + inline(lines[i].replace(/^[-*+]\s/, '')) + '</li>'); i++ }
+        result.push('<ul>' + ul.join('') + '</ul>')
+        continue
+      }
+
+      if (/^\d+\.\s/.test(l)) {
+        var ol = []
+        while (i < lines.length && /^\d+\.\s/.test(lines[i])) { ol.push('<li>' + inline(lines[i].replace(/^\d+\.\s+/, '')) + '</li>'); i++ }
+        result.push('<ol>' + ol.join('') + '</ol>')
+        continue
+      }
+
+      if (!l.trim()) { i++; continue }
+
+      var p = []
+      while (i < lines.length && !isBlock(lines[i])) { p.push(lines[i]); i++ }
+      if (p.length) result.push('<p>' + inline(p.join('\n').replace(/  \n/g, '<br>').replace(/\n/g, ' ')) + '</p>')
+    }
+    return result.join('\n')
+  }
+
+  inp.addEventListener('input', function() {
+    var ratio = out.scrollHeight > out.clientHeight ? out.scrollTop / (out.scrollHeight - out.clientHeight) : 0
+    out.innerHTML = inp.value ? md(inp.value) : ''
+    if (out.scrollHeight > out.clientHeight) out.scrollTop = ratio * (out.scrollHeight - out.clientHeight)
+  })
+})()
+</script>
