@@ -1,8 +1,5 @@
-
 function plugin() {
-
-  return function(files, metalsmith, done) {
-
+  return function (files, metalsmith, done) {
     const metadata = metalsmith.metadata()
     const buildDate = new Date()
 
@@ -16,9 +13,7 @@ function plugin() {
     }
 
     setImmediate(done)
-
   }
-
 }
 
 module.exports = plugin
