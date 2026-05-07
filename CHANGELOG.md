@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ## [v1.2.0] - 2025-08-29
 
 ### Changed
+
 - Updated GitHub Actions workflow to use OIDC for AWS authentication
 - Removed AWS credentials from GitHub secrets
 - Updated Node.js version to 22 in GitHub Actions workflow
@@ -14,42 +15,51 @@ All notable changes to this project will be documented in this file.
 ## [v1.1.0] - 2024-09-01
 
 ### Changed
+
 - Changed internal build process to use GitHub Actions
 - Commits to main now deploy directly to AWS
 
 ### Removed
+
 - Removed CircleCI build
 
 ## [v1.0.7] - 2023-11-06
 
 ### Fixed
+
 - Security fix for `lodash` < 4.17.13
 - General security updates
 
 ### Updated
+
 - Changed deployment process to two steps
 
 ## [v1.0.6] - 2019-07-09
 
 ### Added
+
 - Developer tools for app hosting and auto reloading on changes via `yarn watch` script (utilizes `nodemon`)
 
 ### Fixed
+
 - Security fixes for specific node packages, namely `debug`, `handlebars`, and `js-yaml`
 
 ## [v1.0.5] - 2018-12-19
 
 ### Fixed
+
 - Fixed layout of table options, checkbox sorting
 
 ## [v1.0.4] - 2018-12-19
 
 ### Added
+
 - New `chmod` calculator, translating between octal and symbolic unix file/folder permissions
 
 ## [v1.0.3] - 2018-12-12
 
 ### Added
+
 - Google Analytics tracking data
 - Scheme for sharing constants in templates via `constants.js`
 - Moving plugins to `plugins` dir
@@ -57,27 +67,31 @@ All notable changes to this project will be documented in this file.
 ## [v1.0.2] - 2018-12-12
 
 ### Added
+
 - Added `sitemap.xml` and `robots.txt` for SEO purposes
 
 ### Fixed
+
 - Updated build process to explicitly include `/` to invalidate cache paths
 - Changed collections API to ignore non-HTML files (for now)
 
 ## [v1.0.1] - 2018-12-12
 
 ### Added
+
 - Added `buildinfo` param for future cache busting abilities
 
 ### Fixed
+
 - Footer links were being generated in random order, added alpha sort
 
 ## [v1.0.0] - 2018-12-11
 
 ### Added
+
 - Initial deployment of SM Util!
 - Adds three simple utils: auth header Base64 encoder, case converter, and word/char counter
 - Build script to validate builds and auto-deployer for commits to `stable`
-
 
 [Unreleased]: https://github.com/audseb/smutil/compare/v1.1.0...HEAD
 [v1.1.0]: https://github.com/audseb/smutil/compare/v1.0.7...v1.1.0
