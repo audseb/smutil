@@ -4,6 +4,27 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [v1.3.0] - 2026-05-06
+
+### Added
+
+- Markdown preview page: split-pane live editor with vanilla JS renderer, no dependencies
+- ESLint and Prettier with lint/format/format:check npm scripts
+- `.editorconfig` for consistent editor settings across tools
+- Lint and format check steps in GitHub Actions CI
+
+### Changed
+
+- Migrated from yarn to npm (yarn.lock → package-lock.json, `npm ci` in CI)
+- Upgraded Node.js to v24
+- Updated all GitHub Actions to latest versions (checkout@v6, setup-node@v6, cache@v5, upload-artifact@v7, download-artifact@v8, aws-actions/configure-aws-credentials@v6)
+- Updated metalsmith from 2.6.3 to 2.7.0
+- Updated README to reflect npm workflow and GitHub Actions deployment
+
+### Fixed
+
+- Resolved 9 high-severity dependency vulnerabilities via npm overrides (body-parser, qs, debug, ms, minimatch)
+
 ## [v1.2.0] - 2025-08-29
 
 ### Changed
@@ -93,7 +114,9 @@ All notable changes to this project will be documented in this file.
 - Adds three simple utils: auth header Base64 encoder, case converter, and word/char counter
 - Build script to validate builds and auto-deployer for commits to `stable`
 
-[Unreleased]: https://github.com/audseb/smutil/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/audseb/smutil/compare/v1.3.0...HEAD
+[v1.3.0]: https://github.com/audseb/smutil/compare/v1.2.0...v1.3.0
+[v1.2.0]: https://github.com/audseb/smutil/compare/v1.1.0...v1.2.0
 [v1.1.0]: https://github.com/audseb/smutil/compare/v1.0.7...v1.1.0
 [v1.0.7]: https://github.com/audseb/smutil/compare/v1.0.6...v1.0.7
 [v1.0.6]: https://github.com/audseb/smutil/compare/v1.0.5...v1.0.6
