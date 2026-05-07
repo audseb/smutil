@@ -79,4 +79,4 @@ jobs:
           aws s3 sync ${{ env.BUILD_DIR }}/ s3://${{ env.S3_BUCKET_NAME }}/ --delete
 
           echo ":: invalidating cache: ${{ env.CLOUDFRONT_ID }}"
-          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_ID }} --paths / /\* /\*/\*
+          aws cloudfront create-invalidation --distribution-id ${{ env.CLOUDFRONT_ID }} --paths "/*"
